@@ -29,15 +29,31 @@ class OPENCRITICController extends Controller
     {
         return $this->successResponse($this->OPENCRITICapi->gameSearch($id));
     }
-    public function gameHallofFameYear($year) // GET AUTHOR DETAILS
+    public function gameHallofFameYear($year)
     {
         return $this->successResponse($this->OPENCRITICapi->gameHallofFameYear($year));
     }
 
-    public function popularGames() // GET AUTHOR DETAILS
+    public function popularGames() 
     {
         return $this->successResponse($this->OPENCRITICapi->popularGames());
     }
+    public function findAuthor($author)
+    {
+        return $this->successResponse($this->OPENCRITICapi->authorSearch($author));
+    }
+    public function generalSearch($value)
+    {
+        return $this->successResponse($this->OPENCRITICapi->generalSearch($value));
+    }
+    public function gameReviews($id)
+    {
+        return $this->successResponse($this->OPENCRITICapi->gameReviews($id));
+    }
+
+
+
+
 
 
  

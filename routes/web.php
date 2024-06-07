@@ -30,8 +30,15 @@ $router->get('/twitch/videos/{channel}', 'TWITCHapiController@getChannelVideos')
 
 // $router->get('/opencritic/game/most_popular','OPENCRITICController@popularGames');
 $router->get('/opencritic/game/{id}','OPENCRITICController@gameSearch');
-$router->get('/opencritic/author/{author}','OPENCRITICController@authorSearch');
+$router->get('/opencritic/author/{author}','OPENCRITICController@findAuthor');
 $router->get('/opencritic/game/hall_of_fame/year/{year}','OPENCRITICController@gameHallofFameYear');
+$router->get('/opencritic/search/{value}','OPENCRITICController@generalSearch');
+$router->get('/opencritic/reviews/{id}','OPENCRITICController@gameReviews');
+
+
+
+
+
 
 
 

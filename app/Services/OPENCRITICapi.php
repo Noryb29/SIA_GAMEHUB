@@ -54,4 +54,21 @@ class OPENCRITICapi{
 
         return $this->performRequest('GET',"game/popular",[],$headers);
     }
+
+    public function generalSearch($value){
+        $headers = [
+            'x-rapidapi-host' => $this->host,
+            'x-rapidapi-key' => $this->apiKey,
+        ];
+
+        return $this->performRequest('GET',"meta/search?criteria={$value}",[],$headers);
+    }
+    public function gameReviews($id){
+        $headers = [
+            'x-rapidapi-host' => $this->host,
+            'x-rapidapi-key' => $this->apiKey,
+        ];
+
+        return $this->performRequest('GET',"reviews/game/{$id}?skip=1&sort=newest",[],$headers);
+    }
 }
