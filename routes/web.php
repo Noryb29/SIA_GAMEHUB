@@ -13,27 +13,44 @@
 |
 */
 
+
 $router->get('/', function () use ($router)
 {
     return $router->app->version();
 });
 
+$router->group(['middleware'=>'client.credentials'],function()use($router){
+
+
 // ======================== STEAM API ROUTES =================================
 
+    $router->get('/steam/gameID/{id}', 'STEAMapiController@getAppDetailsbyID'); // get appDetails by ID
+    $router->get('/steam/{title}', 'STEAMapiController@searchByTitle');
+    $router->get('/steam/reviews/{id}', 'STEAMapiController@searchReviews');
 
-$router->get('/steam/gameID/{id}', 'STEAMapiController@getAppDetailsbyID'); // get appDetails by ID
-$router->get('/steam/{title}', 'STEAMapiController@searchByTitle');
-$router->get('/steam/reviews/{id}', 'STEAMapiController@searchReviews');
+    $router->get('/twitch/streamer/{channel}', 'TWITCHapiController@getStreamerInfo');
+    $router->get('/twitch/videos/{channel}', 'TWITCHapiController@getChannelVideos');
 
-$router->get('/twitch/streamer/{channel}', 'TWITCHapiController@getStreamerInfo');
-$router->get('/twitch/videos/{channel}', 'TWITCHapiController@getChannelVideos');
+    // $router->get('/opencritic/game/most_popular','OPENCRITICController@popularGames');
+    $router->get('/opencritic/game/{id}','OPENCRITICController@gameSearch');
+    $router->get('/opencritic/author/{author}','OPENCRITICController@findAuthor');
+    $router->get('/opencritic/game/hall_of_fame/year/{year}','OPENCRITICController@gameHallofFameYear');
+    $router->get('/opencritic/search/{value}','OPENCRITICController@generalSearch');
+    $router->get('/opencritic/reviews/{id}','OPENCRITICController@gameReviews');
 
-// $router->get('/opencritic/game/most_popular','OPENCRITICController@popularGames');
-$router->get('/opencritic/game/{id}','OPENCRITICController@gameSearch');
-$router->get('/opencritic/author/{author}','OPENCRITICController@findAuthor');
-$router->get('/opencritic/game/hall_of_fame/year/{year}','OPENCRITICController@gameHallofFameYear');
-$router->get('/opencritic/search/{value}','OPENCRITICController@generalSearch');
-$router->get('/opencritic/reviews/{id}','OPENCRITICController@gameReviews');
+
+    // USERS ROUTES
+    $router->get('/users', 'UserController@index'); // get all users records
+    $router->get('/users/{id}', 'UserController@show'); // get user by id
+    $router->post('/users', 'UserController@add'); // create new user record
+    $router->put('/users/{id}', 'UserController@update'); // update user record
+    $router->patch('/users/{id}', 'UserController@update'); // update user record
+    $router->delete('/users/{id}', 'UserController@delete'); // delete record
+});
+
+
+
+
 
 
 
