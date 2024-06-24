@@ -1,29 +1,19 @@
 <?php
 
-namespace App\Providers;
+namespace App\Providers; // Define the namespace for the provider
 
-use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
+use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider; // Import the base EventServiceProvider class
 
 class EventServiceProvider extends ServiceProvider
 {
-    /**
-     * The event listener mappings for the application.
-     *
-     * @var array
-     */
     protected $listen = [
         \App\Events\ExampleEvent::class => [
             \App\Listeners\ExampleListener::class,
         ],
     ];
-
-    /**
-     * Determine if events and listeners should be automatically discovered.
-     *
-     * @return bool
-     */
+    
     public function shouldDiscoverEvents()
     {
-        return false;
+        return false; // Disable automatic event discovery
     }
 }

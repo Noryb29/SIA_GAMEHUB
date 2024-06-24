@@ -1,44 +1,25 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware; // Define the namespace for this middleware
 
-use Closure;
-use Illuminate\Contracts\Auth\Factory as Auth;
+use Closure; // Import the Closure class
+use Illuminate\Contracts\Auth\Factory as Auth; // Import the Auth factory interface
 
 class Authenticate
 {
-    /**
-     * The authentication guard factory instance.
-     *
-     * @var \Illuminate\Contracts\Auth\Factory
-     */
-    protected $auth;
+    protected $auth; // Declare a protected property to hold the Auth factory instance
 
-    /**
-     * Create a new middleware instance.
-     *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
-     * @return void
-     */
-    public function __construct(Auth $auth)
+    public function __construct(Auth $auth) // Constructor method to initialize the middleware
     {
-        $this->auth = $auth;
+        $this->auth = $auth; // Assign the injected Auth factory instance to the property
     }
-
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $guard
-     * @return mixed
-     */
-    public function handle($request, Closure $next, $guard = null)
+    
+    public function handle($request, Closure $next, $guard = null) // Method to handle an incoming request
     {
-        if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+        if ($this->auth->guard($guard)->guest()) { // Check if the user is not authenticated for the specified guard
+            return response('Unauthorized.', 401); // Return an unauthorized response with status code 401
         }
 
-        return $next($request);
+        return $next($request); // Pass the request to the next middleware or controller
     }
 }

@@ -13,51 +13,38 @@
 |
 */
 
-
-$router->get('/', function () use ($router)
-{
-    return $router->app->version();
+// Define a GET route for the root URI '/'
+$router->get('/', function () use ($router) {
+    return $router->app->version(); // Return the application version
 });
 
-$router->group(['middleware'=>'client.credentials'],function()use($router){
+// Define a route group with 'client.credentials' middleware applied
+$router->group(['middleware' => 'client.credentials'], function () use ($router) {
 
+    // ======================== STEAM API ROUTES =================================
 
-// ======================== STEAM API ROUTES =================================
+    $router->get('/steam/gameID/{id}', 'STEAMapiController@getAppDetailsbyID'); // Route to get app details by ID from STEAMapiController
+    $router->get('/steam/{title}', 'STEAMapiController@searchByTitle'); // Route to search games by title from STEAMapiController
+    $router->get('/steam/reviews/{id}', 'STEAMapiController@searchReviews'); // Route to fetch reviews for a game by ID from STEAMapiController
 
-    $router->get('/steam/gameID/{id}', 'STEAMapiController@getAppDetailsbyID'); // get appDetails by ID
-    $router->get('/steam/{title}', 'STEAMapiController@searchByTitle');
-    $router->get('/steam/reviews/{id}', 'STEAMapiController@searchReviews');
+    // ======================== TWITCH API ROUTES =================================
 
-    $router->get('/twitch/streamer/{channel}', 'TWITCHapiController@getStreamerInfo');
-    $router->get('/twitch/videos/{channel}', 'TWITCHapiController@getChannelVideos');
+    $router->get('/twitch/streamer/{channel}', 'TWITCHapiController@getStreamerInfo'); // Route to get streamer information by channel name from TWITCHapiController
+    $router->get('/twitch/videos/{channel}', 'TWITCHapiController@getChannelVideos'); // Route to get channel videos by channel name from TWITCHapiController
 
-    // $router->get('/opencritic/game/most_popular','OPENCRITICController@popularGames');
-    $router->get('/opencritic/game/{id}','OPENCRITICController@gameSearch');
-    $router->get('/opencritic/author/{author}','OPENCRITICController@findAuthor');
-    $router->get('/opencritic/game/hall_of_fame/year/{year}','OPENCRITICController@gameHallofFameYear');
-    $router->get('/opencritic/search/{value}','OPENCRITICController@generalSearch');
-    $router->get('/opencritic/reviews/{id}','OPENCRITICController@gameReviews');
+    // ======================== OPENCRITIC API ROUTES ============================
 
+    $router->get('/opencritic/game/{id}', 'OPENCRITICController@gameSearch'); // Route to search for a game by ID from OPENCRITICController
+    $router->get('/opencritic/search/{value}', 'OPENCRITICController@generalSearch'); // Route to perform a general search on OpenCritic by value from OPENCRITICController
+    $router->get('/opencritic/reviews/{id}', 'OPENCRITICController@gameReviews'); // Route to fetch reviews for a game by ID from OPENCRITICController  
 
-    // USERS ROUTES
-    $router->get('/users', 'UserController@index'); // get all users records
-    $router->get('/users/{id}', 'UserController@show'); // get user by id
-    $router->post('/users', 'UserController@add'); // create new user record
-    $router->put('/users/{id}', 'UserController@update'); // update user record
-    $router->patch('/users/{id}', 'UserController@update'); // update user record
-    $router->delete('/users/{id}', 'UserController@delete'); // delete record
+    // ======================== USERS ROUTES ======================================
+
+    $router->get('/users', 'UserController@index'); // Route to get all users records from UserController
+    $router->get('/users/{id}', 'UserController@show'); // Route to get a specific user by ID from UserController
+    $router->post('/users', 'UserController@add'); // Route to add a new user record via UserController
+    $router->put('/users/{id}', 'UserController@update'); // Route to update a user record via UserController
+    $router->patch('/users/{id}', 'UserController@update'); // Route to update a user record partially via UserController
+    $router->delete('/users/{id}', 'UserController@delete'); // Route to delete a user record via UserController
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 

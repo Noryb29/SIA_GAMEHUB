@@ -1,39 +1,31 @@
 <?php
 
-    namespace App\Http\Controllers;
+namespace App\Http\Controllers; // Define the namespace for this controller
 
-    //use App\Models\User;
-    use Illuminate\Http\Response;
-    use App\Traits\ApiResponser;
-    use Illuminate\Http\Request;
-    use DB;
-    use App\Services\TWITCHapi;
-    
-class TWITCHapiController extends Controller
+use Illuminate\Http\Response; // Import the Response class from Illuminate\Http namespace
+use App\Traits\ApiResponser; // Import the ApiResponser trait
+use Illuminate\Http\Request; // Import the Request class from Illuminate\Http namespace
+use App\Services\TWITCHapi; // Import the TWITCHapi service
+use DB; // Import the DB facade
+
+class TWITCHapiController extends Controller // Define the TWITCHapiController class extending Controller
 {
-    use ApiResponser;
+    use ApiResponser; // Use the ApiResponser trait in this class
 
-    public $TWITCHapi;
+    public $TWITCHapi; // Declare a public property to hold the TWITCHapi service instance
     
-    public function __construct(TWITCHapi $TWITCHapi)
+    public function __construct(TWITCHapi $TWITCHapi) // Constructor method to initialize the controller
     {
-        $this->TWITCHapi = $TWITCHapi;
+        $this->TWITCHapi = $TWITCHapi; // Assign the injected TWITCHapi service instance to the property
     }
 
-    // public function index()
-    // {
-    //     return $this->successResponse($this->TWITCHapi->obtainUsers2()); 
-    // }
-
-    public function getStreamerInfo($channel) // SEARCH GAME/SOFTWARE/ANYTHING BY TITLE
+    public function getStreamerInfo($channel) // Method to get streamer info by channel name
     {
-        return $this->successResponse($this->TWITCHapi->getStreamerInfo($channel));
-    }
-    public function getChannelVideos($channel) // SEARCH GAME/SOFTWARE/ANYTHING BY TITLE
-    {
-        return $this->successResponse($this->TWITCHapi->getChannelVideos($channel));
+        return $this->successResponse($this->TWITCHapi->getStreamerInfo($channel)); // Call the getStreamerInfo method on the TWITCHapi service and return a successful JSON response
     }
 
-
- 
+    public function getChannelVideos($channel) // Method to get channel videos by channel name
+    {
+        return $this->successResponse($this->TWITCHapi->getChannelVideos($channel)); // Call the getChannelVideos method on the TWITCHapi service and return a successful JSON response
+    } 
 }

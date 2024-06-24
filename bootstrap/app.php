@@ -1,55 +1,50 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php'; // Load Composer's autoloader
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
-    dirname(__DIR__)
+    dirname(__DIR__) // Bootstrap Lumen application with environment variables
 ))->bootstrap();
 
-date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
+date_default_timezone_set(env('APP_TIMEZONE', 'UTC')); // Set default timezone from environment
 
 /*
 |--------------------------------------------------------------------------
 | Create The Application
 |--------------------------------------------------------------------------
 |
-| Here we will load the environment and create the application instance
-| that serves as the central piece of this framework. We'll use this
-| application as an "IoC" container and router for this framework.
+| Initialize the Lumen application instance which serves as the IoC container
+| and router for the framework.
 |
 */
 
 $app = new Laravel\Lumen\Application(
-    dirname(__DIR__)
+    dirname(__DIR__) // Create new Lumen application instance with base directory
 );
 
-$app->withFacades();
+$app->withFacades(); // Enable facades for the application
+$app->withEloquent(); // Enable Eloquent ORM for database interactions
 
-$app->withEloquent();
-
-$app->configure('services');
-$app->configure('auth');
-
+$app->configure('services'); // Configure services from configuration file
+$app->configure('auth'); // Configure authentication settings
 
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
 |--------------------------------------------------------------------------
 |
-| Now we will register a few bindings in the service container. We will
-| register the exception handler and the console kernel. You may add
-| your own bindings here if you like or you can make another file.
+| Bind exception handler and console kernel to the service container.
 |
 */
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
+    App\Exceptions\Handler::class // Bind custom exception handler
 );
 
 $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
-    App\Console\Kernel::class
+    App\Console\Kernel::class // Bind custom console kernel
 );
 
 /*
@@ -57,32 +52,24 @@ $app->singleton(
 | Register Config Files
 |--------------------------------------------------------------------------
 |
-| Now we will register the "app" configuration file. If the file exists in
-| your configuration directory it will be loaded; otherwise, we'll load
-| the default version. You may register other files below as needed.
+| Load application configuration files.
 |
 */
 
-$app->configure('app');
+$app->configure('app'); // Load application configuration file
 
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
 |--------------------------------------------------------------------------
 |
-| Next, we will register the middleware with the application. These can
-| be global middleware that run before and after each request into a
-| route or middleware that'll be assigned to some specific routes.
+| Register middleware to be used by the application.
 |
 */
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
-
 $app->routeMiddleware([
-    'auth' => App\Http\Middleware\Authenticate::class,
-    'client.credentials' => Laravel\Passport\Http\Middleware\CheckClientCredentials::class,
+    'auth' => App\Http\Middleware\Authenticate::class, // Register authentication middleware
+    'client.credentials' => Laravel\Passport\Http\Middleware\CheckClientCredentials::class, // Register client credentials middleware
 ]);
 
 /*
@@ -90,34 +77,27 @@ $app->routeMiddleware([
 | Register Service Providers
 |--------------------------------------------------------------------------
 |
-| Here we will register all of the application's service providers which
-| are used to bind services into the container. Service providers are
-| totally optional, so you are not required to uncomment this line.
+| Register service providers to bind services into the container.
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
-$app->register(App\Providers\AuthServiceProvider::class);
-$app->register(Laravel\Passport\PassportServiceProvider::class);
-$app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class); // Register authentication service provider
+$app->register(Laravel\Passport\PassportServiceProvider::class); // Register Passport service provider
+$app->register(Dusterio\LumenPassport\PassportServiceProvider::class); // Register Lumen Passport service provider
 
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
 |--------------------------------------------------------------------------
 |
-| Next we will include the routes file so that they can all be added to
-| the application. This will provide all of the URLs the application
-| can respond to, as well as the controllers that may handle them.
+| Include routes file to define all URLs and controllers.
 |
 */
 
 $app->router->group([
-    'namespace' => 'App\Http\Controllers',
+    'namespace' => 'App\Http\Controllers', // Set namespace for controllers
 ], function ($router) {
-    require __DIR__.'/../routes/web.php';
+    require __DIR__.'/../routes/web.php'; // Include web routes
 });
 
-return $app;
-
+return $app; // Return configured Lumen application instance
